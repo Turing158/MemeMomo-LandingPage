@@ -1,0 +1,137 @@
+/* ============================================================
+   MemeMomo 展示站 · 设计令牌
+   「暖纸 × 陶土」：浅色 = 温暖米纸，深色 = 暖夜棕黑。
+   与 CodeCraft-ps 的冷蓝体系刻意区分：
+   - 色相集中在 19°–44°（陶土 / 琥珀 / 暖棕）
+   - 主强调色取自应用本身的陶土橙 #C06A48
+   - 圆角更大、笔触更软，贴近便签纸质
+   HSL 分量变量：组件里用 hsl(var(--xxx)) 或 hsl(var(--xxx) / .5) 引用。
+   主题切换只改 <html> 的 class。
+   ============================================================ */
+
+:root {
+  /* 品牌 */
+  --primary: 19 51% 47%; /* 陶土 terracotta，白字对比 ≥ 4.5:1 */
+  --primary-strong: 19 55% 41%; /* 按下 / 强调 */
+  --primary-soft: 20 60% 92%; /* 陶土浅底 */
+  --primary-foreground: 0 0% 100%;
+  --amber: 40 92% 48%; /* 便利贴琥珀，用于图标 / 装饰 */
+  --amber-soft: 43 96% 88%; /* 荧光笔底色 */
+  --sage: 152 34% 33%; /* 鼠尾草绿，成功 / 任务勾选 */
+  --sage-soft: 145 28% 90%;
+  --rose: 6 55% 52%; /* 危险 / 删除 */
+
+  /* 中性 */
+  --background: 41 46% 95%; /* 米纸 */
+  --background-deep: 40 34% 91%; /* 更深一档的底 */
+  --foreground: 25 35% 13%; /* 暖近黑 */
+  --card: 44 62% 99%; /* 卡片（近白） */
+  --card-foreground: 25 35% 13%;
+  --card-muted: 42 36% 92%;
+  --muted: 42 32% 91%; /* 文档组件用的中性底 */
+  --muted-foreground: 28 14% 38%;
+  --faint-foreground: 30 10% 50%;
+  --border: 33 24% 83%;
+  --border-strong: 30 20% 72%;
+  --ring: 19 51% 47%;
+  --code-bg: 32 30% 90%;
+  --code-border: 32 22% 80%;
+  --shadow-color: 28 40% 30%;
+
+  /* 应用窗口 mockup（对应 WPF LightPalette） */
+  --app-bg: #f6f3ec;
+  --app-bg-secondary: #faf8f3;
+  --app-surface: #ffffff;
+  --app-border: #e5ddd1;
+  --app-border-subtle: #ede8dd;
+  --app-accent: #c06a48;
+  --app-accent-muted: #e8c4a8;
+  --app-accent-subtle: #faede4;
+  --app-text: #1e1a16;
+  --app-text-secondary: #5c554d;
+  --app-text-tertiary: #8a8278;
+  --app-quote-bg: #f0dfd4;
+  --app-quote-border: #d2aa92;
+  --app-code-bg: #e2e7ea;
+  --app-code-border: #818e98;
+
+  --radius: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-sm: 0.625rem;
+
+  --font-display:
+    'Nunito', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', system-ui,
+    sans-serif;
+  --font-body:
+    'Nunito', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', system-ui,
+    sans-serif;
+  --font-mono:
+    'JetBrains Mono', 'Cascadia Code', Consolas, 'Courier New', monospace;
+
+  color-scheme: light;
+}
+
+.dark {
+  --primary: 24 66% 64%; /* 暖陶土提亮 */
+  --primary-strong: 26 70% 70%;
+  --primary-soft: 22 30% 22%;
+  --primary-foreground: 20 30% 10%;
+  --amber: 40 88% 58%;
+  --amber-soft: 38 55% 26%;
+  --sage: 145 32% 62%;
+  --sage-soft: 150 20% 20%;
+  --rose: 8 70% 66%;
+  --accent-warm: 24 66% 64%;
+
+  --background: 22 18% 8%; /* 暖夜棕黑 */
+  --background-deep: 22 20% 6%;
+  --foreground: 38 42% 91%; /* 暖米白 */
+  --card: 22 15% 12%;
+  --card-foreground: 38 42% 91%;
+  --card-muted: 22 13% 16%;
+  --muted: 22 12% 15%;
+  --muted-foreground: 33 16% 67%;
+  --faint-foreground: 32 12% 52%;
+  --border: 24 13% 21%;
+  --border-strong: 26 14% 30%;
+  --ring: 24 66% 64%;
+  --code-bg: 22 13% 14%;
+  --code-border: 24 12% 24%;
+  --shadow-color: 15 30% 3%;
+
+  /* 应用窗口 mockup：站内演示保持产品暖纸外观，两种站点主题下都成立 */
+  --app-bg: #f6f3ec;
+  --app-bg-secondary: #faf8f3;
+  --app-surface: #ffffff;
+  --app-border: #e5ddd1;
+  --app-border-subtle: #ede8dd;
+  --app-accent: #c06a48;
+  --app-accent-muted: #e8c4a8;
+  --app-accent-subtle: #faede4;
+  --app-text: #1e1a16;
+  --app-text-secondary: #5c554d;
+  --app-text-tertiary: #8a8278;
+  --app-quote-bg: #f0dfd4;
+  --app-quote-border: #d2aa92;
+  --app-code-bg: #e2e7ea;
+  --app-code-border: #818e98;
+
+  color-scheme: dark;
+}
+
+/* 主按钮渐变：陶土 → 琥珀，两种主题共用 */
+.brand-gradient {
+  background: linear-gradient(135deg, hsl(19 51% 47%) 0%, hsl(36 84% 52%) 100%);
+}
+.dark .brand-gradient {
+  background: linear-gradient(135deg, hsl(20 56% 52%) 0%, hsl(38 80% 55%) 100%);
+}
+
+/* 点阵纸纹（Hero / CTA 背景） */
+.bg-dots {
+  background-image: radial-gradient(
+    hsl(var(--foreground) / 0.09) 1.25px,
+    transparent 1.25px
+  );
+  background-size: 22px 22px;
+}

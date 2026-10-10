@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MemeMomo - 贴在桌面上的轻量 Markdown 备忘录</title>
+    <meta
+      name="description"
+      content="MemeMomo 官方展示页。一款为 Windows 打造的桌面 Markdown 备忘录：便签弹窗、定时提醒、全局快捷键、贴边收起，数据全部保存在本机。.NET 8 + WPF。"
+    />
+    <meta
+      name="keywords"
+      content="MemeMomo, Markdown 备忘录, 桌面便签, WPF, C#, Windows, 定时提醒, 贴边收起"
+    />
+    <meta name="application-name" content="MemeMomo" />
+    <meta name="theme-color" content="#1d1712" />
+    <link rel="icon" type="image/png" href="./assets/appicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      !(function () {
+        try {
+          var d = document.documentElement,
+            c = d.classList
+          c.remove('light', 'dark')
+          var e = localStorage.getItem('memomomo-theme')
+          if ('system' === e || !e) {
+            var m = window.matchMedia('(prefers-color-scheme: dark)')
+            ;(d.style.colorScheme = m.matches ? 'dark' : 'light'),
+              c.add(m.matches ? 'dark' : 'light')
+          } else if (e) {
+            ;(d.style.colorScheme = e), c.add(e)
+          }
+        } catch (err) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,486 @@
+/* 界面一览：双设置窗口并排 + 可交互组件三卡 */
+
+.section {
+  background: hsl(var(--background-deep) / 0.55);
+}
+
+/* ---------- 双设置窗口 ---------- */
+
+.dualGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  justify-items: center;
+}
+@media (max-width: 899px) {
+  .dualGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dualItem {
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+  justify-items: center;
+  width: 100%;
+}
+
+.dualCaption {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: hsl(var(--faint-foreground));
+  letter-spacing: 0.06em;
+}
+
+/* 设置窗口本体（浅色变体 = 应用 LightPalette） */
+.settings {
+  --sw-bg: #f6f3ec;
+  --sw-surface: #fbfaf6;
+  --sw-card: #ffffff;
+  --sw-border: #e5ddd1;
+  --sw-border-soft: #ede8dd;
+  --sw-text: #1e1a16;
+  --sw-text-2: #5c554d;
+  --sw-text-3: #8a8278;
+  --sw-accent: #c06a48;
+  --sw-accent-soft: #faede4;
+  --sw-seg-bg: #efeae1;
+  --sw-kbd-bg: #f6f3ec;
+
+  width: min(100%, 25rem);
+  border-radius: 14px;
+  border: 1px solid var(--sw-border);
+  background: var(--sw-bg);
+  box-shadow:
+    0 24px 56px -20px rgb(30 20 10 / 0.32),
+    0 4px 14px -6px rgb(30 20 10 / 0.14);
+  overflow: hidden;
+  font-family: 'Nunito', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  text-align: left;
+  user-select: none;
+}
+
+/* 深色变体 = 应用 DarkPalette（运行时生成的炭黑 + 钢蓝） */
+.settingsDark {
+  --sw-bg: #202225;
+  --sw-surface: #25272b;
+  --sw-card: #292c31;
+  --sw-border: #414750;
+  --sw-border-soft: #353a42;
+  --sw-text: #e1e4e8;
+  --sw-text-2: #b9c0c9;
+  --sw-text-3: #a2abb7;
+  --sw-accent: #8fafd5;
+  --sw-accent-soft: #2b3746;
+  --sw-seg-bg: #30343a;
+  --sw-kbd-bg: #25272b;
+}
+
+.settingsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding-inline: 14px;
+  background: var(--sw-surface);
+  border-bottom: 1px solid var(--sw-border-soft);
+}
+
+.settingsTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sw-text);
+}
+
+.settingsClose {
+  color: var(--sw-text-3);
+  display: grid;
+  place-items: center;
+}
+.settingsClose svg {
+  width: 13px;
+  height: 13px;
+}
+
+.settingsBody {
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.settingsGroup {
+  background: var(--sw-card);
+  border: 1px solid var(--sw-border-soft);
+  border-radius: 10px;
+  padding: 11px 12px;
+}
+
+.groupTitle {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--sw-text);
+}
+
+.groupHint {
+  font-size: 9px;
+  color: var(--sw-text-3);
+  margin-top: 1px;
+}
+
+/* 便签配色网格 */
+.swatchGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.swatch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--sw-border-soft);
+  border-radius: 8px;
+  background: var(--sw-bg);
+  padding: 6px 8px;
+}
+
+.swatchSelected {
+  border-color: var(--sw-accent);
+  box-shadow: 0 0 0 1px var(--sw-accent) inset;
+}
+
+.swatchDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 5px;
+  border: 1px solid rgb(0 0 0 / 0.12);
+  flex-shrink: 0;
+}
+
+.swatchName {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--sw-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.swatchCheck {
+  width: 10px;
+  height: 10px;
+  color: var(--sw-accent);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* 分段选择器（静态展示用 span） */
+.segmented {
+  display: flex;
+  background: var(--sw-seg-bg);
+  border-radius: 8px;
+  padding: 2.5px;
+  margin-top: 8px;
+}
+
+.segment {
+  flex: 1;
+  text-align: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--sw-text-2);
+  padding: 4px 0;
+  border-radius: 6.5px;
+}
+
+.segmentActive {
+  background: var(--sw-card);
+  color: var(--sw-text);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.14);
+}
+
+.groupFoot {
+  font-size: 9px;
+  color: var(--sw-text-3);
+  margin-top: 7px;
+}
+
+/* 快捷键行 */
+.keyRows {
+  display: grid;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.keyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--sw-bg);
+  border: 1px solid var(--sw-border-soft);
+  border-radius: 7px;
+  padding: 5px 9px;
+}
+
+.keyLabel {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--sw-text-2);
+}
+
+.keyValue {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: var(--sw-text);
+  background: var(--sw-kbd-bg);
+  border: 1px solid var(--sw-border);
+  border-radius: 5px;
+  padding: 1.5px 6px;
+  white-space: nowrap;
+}
+
+/* ---------- 可交互组件三卡 ---------- */
+
+.controlsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+@media (max-width: 899px) {
+  .controlsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.controlCard {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.controlTitle {
+  font-size: 1.05rem;
+}
+
+.controlDesc {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: -0.4rem;
+}
+
+.controlFoot {
+  font-size: 0.8125rem;
+  color: hsl(var(--faint-foreground));
+}
+.controlFoot strong {
+  color: hsl(var(--primary));
+}
+
+.demoValue {
+  font-family: var(--font-mono);
+  color: hsl(var(--primary));
+}
+
+/* 分段选择器（可交互，站点主题） */
+.demoSegmented {
+  display: flex;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.8rem;
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+.demoSegment {
+  flex: 1;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: hsl(var(--muted-foreground));
+  padding: 0.42rem 0;
+  border-radius: 0.6rem;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.demoSegment:hover {
+  color: hsl(var(--foreground));
+}
+
+.demoSegmentActive {
+  background: hsl(var(--card));
+  color: hsl(var(--primary));
+  box-shadow: 0 2px 8px -2px hsl(var(--shadow-color) / 0.3), 0 0 0 1px hsl(var(--border));
+}
+
+/* 滑块 */
+.slider {
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    hsl(var(--primary)) 0%,
+    hsl(var(--primary)) calc((var(--val, 52) - 30) / 45 * 100%),
+    hsl(var(--card-muted)) calc((var(--val, 52) - 30) / 45 * 100%),
+    hsl(var(--card-muted)) 100%
+  );
+  outline-offset: 6px;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: hsl(var(--card));
+  border: 3px solid hsl(var(--primary));
+  box-shadow: 0 3px 10px -2px hsl(var(--shadow-color) / 0.4);
+  transition: transform 0.15s ease;
+}
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: hsl(var(--card));
+  border: 3px solid hsl(var(--primary));
+  cursor: pointer;
+}
+
+/* 预览区：边线居中，方块贴在eline左侧（与 Hero 贴边形态一致），
+   --dock-px 由组件内联传入，方块与过渡弧随滑块实时变化 */
+.sliderPreview {
+  position: relative;
+  height: 4.2rem;
+  border: 1.5px solid hsl(var(--border-strong));
+  border-radius: 0.8rem;
+  background:
+    radial-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px) 0 0 / 14px 14px,
+    hsl(var(--background));
+  overflow: hidden;
+}
+
+.sliderDock {
+  position: absolute;
+  right: calc(50% + 1px);
+  top: 50%;
+  translate: 0 -50%;
+  width: var(--dock-px, 36px);
+  height: var(--dock-px, 36px);
+  border-radius: 0.6rem 0 0 0.6rem;
+  background: hsl(var(--primary));
+  box-shadow: 0 6px 16px -6px hsl(var(--primary) / 0.65);
+  transition: width 0.12s ease, height 0.12s ease;
+}
+
+.sliderEdge {
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: hsl(var(--border-strong));
+}
+
+/* 方块上下的过渡弧：与方块同色，贴着居中边线；
+   bottom 随 --dock-px 变化，过渡时长与方块缩放一致保证同步 */
+.sliderPreview::before,
+.sliderPreview::after {
+  content: '';
+  position: absolute;
+  right: calc(50% + 1px);
+  width: 0.6rem;
+  height: 0.6rem;
+  pointer-events: none;
+  transition: bottom 0.12s ease;
+}
+.sliderPreview::before {
+  bottom: calc(50% + var(--dock-px, 36px) / 2);
+  background: radial-gradient(
+    circle at 0 0,
+    transparent 0.6rem,
+    hsl(var(--primary)) 0.65rem
+  );
+  /* 同色桥接条：盖住与方块之间因亚像素取整产生的细缝 */
+  box-shadow: 0 1.5px 0 0 hsl(var(--primary));
+}
+.sliderPreview::after {
+  bottom: calc(50% - var(--dock-px, 36px) / 2 - 0.6rem);
+  background: radial-gradient(
+    circle at 0 100%,
+    transparent 0.6rem,
+    hsl(var(--primary)) 0.65rem
+  );
+  box-shadow: 0 -1.5px 0 0 hsl(var(--primary));
+}
+
+/* 任务复选框 */
+.taskList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.taskRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  text-align: left;
+  border-radius: 0.6rem;
+  padding: 0.15rem 0.35rem;
+  transition: background-color 0.15s ease;
+}
+.taskRow:hover {
+  background: hsl(var(--background));
+}
+
+.taskBox {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.45rem;
+  border: 2px solid hsl(var(--border-strong));
+  color: #fff;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    scale 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.taskBox svg {
+  width: 12px;
+  height: 12px;
+}
+
+.taskBoxOn {
+  background: hsl(var(--sage));
+  border-color: hsl(var(--sage));
+  scale: 1.05;
+}
+
+.taskText {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  transition: color 0.2s ease;
+}
+
+.taskTextDone {
+  color: hsl(var(--faint-foreground));
+  text-decoration: line-through;
+  text-decoration-color: hsl(var(--sage) / 0.7);
+}

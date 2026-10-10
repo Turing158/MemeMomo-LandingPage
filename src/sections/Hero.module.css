@@ -1,0 +1,318 @@
+/* Hero：点阵纸纹背景 + 居中文案 + 窗口拼贴 + 统计条 */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 7.5rem;
+  padding-bottom: 4rem;
+}
+@media (min-width: 768px) {
+  .hero {
+    padding-top: 9rem;
+    padding-bottom: 5rem;
+  }
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    hsl(var(--foreground) / 0.07) 1.25px,
+    transparent 1.25px
+  );
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, black 55%, transparent);
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.5;
+}
+.blobA {
+  width: 34rem;
+  height: 34rem;
+  top: -12rem;
+  left: -10rem;
+  background: hsl(var(--amber) / 0.28);
+}
+.blobB {
+  width: 30rem;
+  height: 30rem;
+  top: 6rem;
+  right: -12rem;
+  background: hsl(var(--primary) / 0.22);
+}
+.dark .blob {
+  opacity: 0.3;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- 文案 ---------- */
+
+.copy {
+  max-width: 44rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: hsl(var(--primary));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  box-shadow: 0 2px 10px -4px hsl(var(--shadow-color) / 0.2);
+}
+
+.title {
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-top: 1.25rem;
+}
+
+.subtitle {
+  margin-top: 1.25rem;
+  font-size: 1.125rem;
+  color: hsl(var(--muted-foreground));
+  max-width: 36rem;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.cta {
+  padding-inline: 1.6rem;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: hsl(var(--faint-foreground));
+}
+.hint .kbd {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ---------- 拼贴 ---------- */
+
+.collage {
+  width: 100%;
+  margin-top: 3.5rem;
+}
+@media (min-width: 768px) {
+  .collage {
+    margin-top: 4.5rem;
+  }
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2.5rem;
+}
+
+.float {
+  animation: bob 7s ease-in-out infinite;
+}
+.floatMain {
+  position: relative;
+  z-index: 10;
+  animation-delay: 0s;
+}
+
+/* 便签：左侧斜叠 */
+.floatNote {
+  position: absolute;
+  z-index: 20;
+  left: clamp(-1rem, 3vw, 7rem);
+  top: 4%;
+  transform: rotate(-3.5deg);
+  animation-delay: 1.2s;
+}
+
+/* 提醒：右侧斜叠 */
+.floatToast {
+  position: absolute;
+  z-index: 20;
+  right: clamp(-1rem, 4vw, 9rem);
+  top: 12%;
+  transform: rotate(2.5deg);
+  animation-delay: 2.4s;
+}
+
+/* 屏幕右缘 + 贴边方块：方块右缘紧贴边线（零间距），
+   边线在方块上、下两侧以凹弧圆角并入，还原应用贴边时的过渡形态。
+   方块可沿边线拖动：位置由 --dock-bottom 驱动，过渡弧随之跟随；
+   拖动范围已按过渡弧外沿钳制（见 Hero.tsx），弧不会越过线的尽头。 */
+.edge {
+  position: absolute;
+  z-index: 5;
+  right: clamp(0rem, 2vw, 3rem);
+  bottom: 0;
+  width: 3px;
+  top: 30%;
+  border-radius: 0 2px 2px 0;
+  /* 顶端渐隐收头；底端由方块的过渡弧收尾 */
+  background: linear-gradient(to bottom, transparent, hsl(var(--border-strong)) 10%);
+}
+.edge > div {
+  position: absolute;
+  right: 3px; /* 与边线左缘贴合（.edge 宽 3px） */
+  bottom: var(--dock-bottom, 12px);
+  border-radius: 12px 0 0 12px; /* 外侧大圆角，贴边侧平直 */
+  border: none; /* 去掉描边，避免分割方块与过渡弧 */
+}
+
+.dockHandle {
+  cursor: grab;
+  touch-action: none; /* 拖动时不要触发页面滚动 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+.dockHandle:active {
+  cursor: grabbing;
+}
+
+.edge::before,
+.edge::after {
+  content: '';
+  position: absolute;
+  right: 3px;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+/* 方块上方：方块颜色的凹弧贴着边线鼓出，并入方块顶边 */
+.edge::before {
+  bottom: calc(var(--dock-bottom, 12px) + 44px);
+  background: radial-gradient(
+    circle at 0 0,
+    transparent 12px,
+    var(--app-surface) 12.5px
+  );
+  /* 同色桥接条：盖住与方块之间因亚像素取整产生的细缝 */
+  box-shadow: 0 1.5px 0 0 var(--app-surface);
+}
+/* 方块下方：从方块底边向下伸 12px 的镜像过渡 */
+.edge::after {
+  bottom: calc(var(--dock-bottom, 12px) - 12px);
+  background: radial-gradient(
+    circle at 0 100%,
+    transparent 12px,
+    var(--app-surface) 12.5px
+  );
+  box-shadow: 0 -1.5px 0 0 var(--app-surface);
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -9px;
+  }
+}
+.floatNote {
+  animation-name: bobNote;
+}
+.floatToast {
+  animation-name: bobToast;
+}
+@keyframes bobNote {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -12px;
+  }
+}
+@keyframes bobToast {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -7px;
+  }
+}
+
+/* ---------- 统计条 ---------- */
+
+.stats {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 2.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 900;
+  color: hsl(var(--primary));
+}
+
+.statLabel {
+  font-size: 0.8125rem;
+  color: hsl(var(--faint-foreground));
+  font-weight: 600;
+}
+
+/* ---------- 小屏适配 ---------- */
+
+@media (max-width: 640px) {
+  .floatNote {
+    position: relative;
+    right: auto;
+    left: auto;
+    top: auto;
+    transform: rotate(-2.5deg);
+    margin: 1.25rem auto 0;
+    display: block;
+    width: max-content;
+  }
+  .floatToast {
+    display: none;
+  }
+  .edge {
+    display: none;
+  }
+}

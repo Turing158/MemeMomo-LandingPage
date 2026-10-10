@@ -1,0 +1,181 @@
+/* 文档页右侧目录：竖向进度线 + 滚动高亮 + 回到顶部 */
+
+.wrap {
+  display: none;
+  width: 14rem;
+  flex-shrink: 0;
+}
+@media (min-width: 1280px) {
+  .wrap { display: block; }
+}
+
+.sticky {
+  position: sticky;
+  top: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav {
+  position: relative;
+  font-size: 0.8125rem;
+  /* --toc-line-top/--toc-line-h：轨道线首末圆心；--toc-fill-h：填充线止于当前圆心 */
+}
+
+/* 轨道线：从首个节点圆心贯穿到末个节点圆心 */
+.nav::before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: var(--toc-line-top, 0.5rem);
+  height: var(--toc-line-h, 100%);
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 999px;
+  background: hsl(var(--border));
+}
+
+/* 覆盖线：已读部分点亮，终点精确落在当前激活节点的圆心上 */
+.nav::after {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: var(--toc-line-top, 0.5rem);
+  width: 2px;
+  height: var(--toc-fill-h, 0);
+  margin-left: -1px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--accent-warm)) 100%
+  );
+  transition: height 0.25s ease;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.titleIcon {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--primary));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* --lvl：归一化层级（1 起）；一级贴轨道，之后每级缩进一步，最深 4 步 */
+  padding-left: calc(1.5rem + (min(var(--lvl, 1), 4) - 1) * 0.75rem);
+}
+
+/* 一级条目作为分组起点，与上一组隔开 */
+.groupStart { margin-top: 0.625rem; }
+.groupStart:first-child { margin-top: 0; }
+
+/* 节点圆：挂在轨道线上（left 0.25rem 与轨道线对齐，margin 负值居圆心） */
+.dot {
+  position: absolute;
+  /* 盖在 nav::before/::after 两条进度线之上：实心激活圆不被蓝色填充线遮挡 */
+  z-index: 1;
+  left: 0.25rem;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 999px;
+  background: hsl(var(--background));
+  border: 2px solid hsl(var(--border));
+  transition: border-color 0.2s, scale 0.2s;
+}
+
+/* 到达对应章节时：节点圆变实心（边框与填充同色） */
+.dotActive {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary));
+  scale: 1.25;
+}
+
+.entryBtn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.3125rem 0.5rem;
+  border-radius: 0.5rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.3;
+  transition: color 0.2s, background-color 0.2s;
+}
+.entryBtn:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted) / 0.6);
+}
+
+/* 一级（树顶层级）：加粗、正文色 */
+.entryLv1 {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+/* hN 方形等级标签（三级及更深时出现，标明真实标题等级） */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 1.25rem;
+  height: 1rem;
+  margin-right: 0.375rem;
+  padding: 0 0.2rem;
+  border-radius: 0.25rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  font-family: 'Fira Code', 'JetBrains Mono', 'SF Mono', monospace;
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.entryActive {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+/* 回到顶部按钮 */
+.backTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--muted-foreground));
+  font-size: 0.8125rem;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+.backTop:hover {
+  color: hsl(var(--primary));
+  border-color: hsl(var(--primary) / 0.45);
+  background: hsl(var(--primary) / 0.06);
+}
+
+.backTopIcon { width: 0.875rem; height: 0.875rem; }

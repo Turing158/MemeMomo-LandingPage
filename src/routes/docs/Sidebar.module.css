@@ -1,0 +1,191 @@
+/* 文档页侧边栏：卡片容器 + content/ 目录树多级折叠 + 当前篇章高亮 */
+
+.wrap { display: none; }
+@media (min-width: 1024px) {
+  .wrap {
+    display: block;
+    width: 16rem;
+    flex-shrink: 0;
+  }
+}
+@media (min-width: 1280px) {
+  .wrap { width: 17rem; }
+}
+
+/* 整个侧栏是一张吸顶卡片 */
+.card {
+  position: sticky;
+  top: 5.5rem;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  padding: 0.75rem;
+}
+
+.search {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--muted) / 0.5);
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.search:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--primary) / 0.4);
+}
+.search:focus-visible {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.25);
+}
+
+.searchIcon { width: 1rem; height: 1rem; }
+
+.searchLabel { flex: 1; text-align: left; }
+
+.searchKbd {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  font-family: inherit;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* 分组折叠 */
+.groupItems {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.2s ease, opacity 0.2s ease;
+}
+.groupOpen .groupItems {
+  height: auto;
+  opacity: 1;
+}
+
+.groupChevron {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: hsl(var(--muted-foreground));
+  transition: transform 0.2s ease;
+}
+.groupOpen .groupChevron { transform: rotate(90deg); }
+
+.groupToggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.5rem;
+  text-align: left;
+  color: hsl(var(--muted-foreground));
+  transition: background-color 0.2s, color 0.2s;
+}
+.groupToggle:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+/* 默认展开组 / 含当前小节的组的激活配色 */
+.groupToggleActive { color: hsl(var(--primary)); }
+
+.groupIcon {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary) / 0.85);
+}
+/* 内联的 icon.svg 继承主题色 */
+.groupIcon svg { width: 0.9375rem; height: 0.9375rem; }
+/* icon.svg 源码直接内联渲染，去掉文件自带的固定尺寸让 CSS 接管 */
+.groupIconSvg { display: inline-flex; }
+.groupIconSvg > svg { width: 0.9375rem; height: 0.9375rem; }
+/* 位图目录图标（icon.png 等） */
+.groupIconImg {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  object-fit: contain;
+  border-radius: 0.25rem;
+}
+
+.groupLabel { flex: 1; font-size: 0.875rem; font-weight: 500; }
+
+/* 条目数徽标 */
+.groupCount {
+  font-size: 0.6875rem;
+  line-height: 1;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 999px;
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+.groupToggleActive .groupCount {
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+}
+
+.groupItemsInner {
+  margin-left: 1.375rem;
+  margin-top: 0.125rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  border-left: 1px solid hsl(var(--border));
+  padding-left: 0.75rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4375rem 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  color: hsl(var(--muted-foreground));
+  transition: background-color 0.15s, color 0.15s;
+}
+.item:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+/* 条目左侧小竖条：默认透明，激活时点亮 */
+.itemMark {
+  width: 2px;
+  height: 0.875rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: transparent;
+  transition: background-color 0.15s;
+}
+
+.itemActive {
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+  font-weight: 500;
+}
+.itemActive .itemMark { background: hsl(var(--primary)); }

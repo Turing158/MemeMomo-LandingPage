@@ -1,0 +1,133 @@
+/* 悬浮胶囊导航：与页面顶部留出空隙，始终毛玻璃；
+   滚动后加深阴影与描边。移动端只保留品牌 + 操作区。 */
+
+.wrap {
+  position: fixed;
+  top: 0.875rem;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding-inline: 1rem;
+  pointer-events: none;
+}
+
+.bar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 58rem;
+  height: 3.25rem;
+  padding-inline: 1rem 0.625rem;
+  border-radius: 999px;
+  background: hsl(var(--background) / 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid hsl(var(--border) / 0.8);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.scrolled .bar {
+  border-color: hsl(var(--border-strong));
+  box-shadow:
+    0 10px 30px -12px hsl(var(--shadow-color) / 0.35),
+    0 2px 8px -2px hsl(var(--shadow-color) / 0.12);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 0.4rem;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+
+.version {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: hsl(var(--primary));
+  background: hsl(var(--primary-soft));
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .links {
+    display: none;
+  }
+}
+
+.link {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.link:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--card-muted));
+}
+
+.linkActive {
+  color: hsl(var(--primary));
+  background: hsl(var(--primary-soft));
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .actions {
+    margin-left: 0;
+  }
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: 999px;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.iconBtn:hover {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border-strong));
+  background: hsl(var(--card-muted));
+}

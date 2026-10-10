@@ -1,0 +1,308 @@
+/* 下载页：主下载卡（7）+ 版本事实卡（5）+ 需求条 + 帮助行 */
+
+.page {
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+}
+@media (min-width: 768px) {
+  .page {
+    padding-top: 8.5rem;
+  }
+}
+
+/* ---------- 页头 ---------- */
+
+.head {
+  position: relative;
+  padding-bottom: 2.5rem;
+  background-image: radial-gradient(hsl(var(--foreground) / 0.06) 1.25px, transparent 1.25px);
+  background-size: 24px 24px;
+}
+
+.title {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  margin-bottom: 0.75rem;
+}
+
+.lead {
+  color: hsl(var(--muted-foreground));
+  font-size: 1.0625rem;
+  max-width: 34rem;
+}
+
+/* ---------- 主下载卡 + 事实卡 ---------- */
+
+.paths {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+.paths > * {
+  min-width: 0;
+}
+@media (max-width: 899px) {
+  .paths {
+    grid-template-columns: 1fr;
+  }
+}
+
+.downloadCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--primary) / 0.5);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 1.6rem;
+  box-shadow: 0 24px 60px -30px hsl(var(--primary) / 0.55);
+  overflow: hidden;
+}
+/* 卡片右上角的琥珀光晕装饰 */
+.downloadCard::before {
+  content: '';
+  position: absolute;
+  top: -6rem;
+  right: -6rem;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--amber) / 0.16), transparent 70%);
+  pointer-events: none;
+}
+
+.appRow {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.appIcon {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 10px 24px -10px hsl(var(--shadow-color) / 0.5);
+}
+
+.appMeta {
+  min-width: 0;
+}
+
+.appName {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 1.5rem;
+}
+
+.versionBadge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: hsl(var(--primary));
+  background: hsl(var(--primary-soft));
+  border: 1px solid hsl(var(--primary) / 0.3);
+  border-radius: 999px;
+  padding: 0.16rem 0.65rem;
+  white-space: nowrap;
+}
+
+.appDesc {
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bigCta {
+  padding: 0.85rem 1.7rem;
+  font-size: 1rem;
+}
+@media (max-width: 480px) {
+  .downloadCard {
+    padding: 1.6rem 1.25rem 1.3rem;
+  }
+  .bigCta {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+}
+
+.reassureList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.reassureChip {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  padding: 0.28rem 0.85rem;
+}
+
+.cardFoot {
+  font-size: 0.8125rem;
+  color: hsl(var(--faint-foreground));
+  margin-top: auto;
+  padding-top: 0.4rem;
+  border-top: 1px dashed hsl(var(--border));
+}
+
+/* 版本事实卡：账目行 */
+.factsCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background: hsl(var(--background-deep) / 0.8);
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.6rem 1.4rem;
+}
+
+.factsTitle {
+  font-size: 1.0625rem;
+}
+
+.factsList {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.factRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px dashed hsl(var(--border-strong) / 0.7);
+  padding-bottom: 0.55rem;
+}
+
+.factRow dt {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: hsl(var(--faint-foreground));
+  flex-shrink: 0;
+}
+
+.factRow dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  text-align: right;
+}
+
+.factsFoot {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: auto;
+  font-size: 0.8125rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+}
+.factsFoot svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: hsl(var(--sage));
+}
+
+/* ---------- 运行环境 ---------- */
+
+.reqs {
+  margin-top: 2.5rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+}
+
+.reqsTitle {
+  font-size: 1.0625rem;
+  margin-bottom: 1.1rem;
+}
+
+.reqsList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .reqsList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.reqsList li {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+
+.reqsList svg {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  color: hsl(var(--primary));
+}
+
+.reqsList strong {
+  display: block;
+  font-size: 0.9375rem;
+  color: hsl(var(--foreground));
+}
+
+.reqsList span {
+  font-size: 0.8125rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---------- 帮助行 ---------- */
+
+.helpRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.helpLabel {
+  font-size: 0.875rem;
+  color: hsl(var(--faint-foreground));
+}
+
+.helpLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: hsl(var(--primary));
+  border-bottom: 2px solid hsl(var(--primary) / 0.35);
+  padding-bottom: 0.1rem;
+  transition: border-color 0.2s ease;
+}
+.helpLink:hover {
+  border-color: hsl(var(--primary));
+}

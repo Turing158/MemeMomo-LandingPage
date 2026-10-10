@@ -1,0 +1,126 @@
+/* CTA：陶土→琥珀渐变大卡，两张手写便签装饰 */
+
+.section {
+  padding-block: 3rem 5rem;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, hsl(20 45% 34%) 0%, hsl(28 55% 26%) 55%, hsl(35 60% 20%) 100%);
+  color: hsl(40 60% 96%);
+  padding: 4rem 2rem;
+  text-align: center;
+  box-shadow: 0 30px 70px -28px hsl(20 50% 15% / 0.65);
+}
+@media (min-width: 768px) {
+  .card {
+    padding: 4.5rem 3rem;
+  }
+}
+
+.dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(255 244 220 / 0.14) 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 78%);
+}
+
+/* 手写便签 */
+.noteA,
+.noteB {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #4a403a;
+  background: hsl(43 96% 88%);
+  border-radius: 0.4rem;
+  padding: 0.9rem 1.1rem;
+  box-shadow: 0 14px 30px -12px rgb(0 0 0 / 0.45);
+  display: none;
+}
+@media (min-width: 900px) {
+  .noteA,
+  .noteB {
+    display: block;
+  }
+}
+.noteA {
+  left: 6%;
+  top: 16%;
+  rotate: -7deg;
+}
+.noteB {
+  right: 7%;
+  bottom: 14%;
+  rotate: 6deg;
+  background: hsl(20 60% 88%);
+}
+
+.inner {
+  position: relative;
+  max-width: 34rem;
+  margin-inline: auto;
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+}
+
+.title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: hsl(42 80% 95%);
+}
+
+.highlight {
+  position: relative;
+  isolation: isolate;
+  white-space: nowrap;
+}
+.highlight::before {
+  content: '';
+  position: absolute;
+  left: -0.1em;
+  right: -0.1em;
+  bottom: 0.08em;
+  height: 0.36em;
+  background: hsl(43 92% 55% / 0.5);
+  border-radius: 3px;
+  z-index: -1;
+}
+
+.desc {
+  color: hsl(38 40% 86% / 0.85);
+  font-size: 1.0625rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  box-shadow: 0 10px 26px -10px rgb(0 0 0 / 0.55);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 800;
+  font-size: 0.9375rem;
+  color: hsl(42 80% 92%);
+  border-bottom: 2px solid hsl(43 92% 55% / 0.6);
+  padding-bottom: 0.15rem;
+  transition: border-color 0.2s ease;
+}
+.link:hover {
+  border-color: hsl(43 92% 62%);
+}

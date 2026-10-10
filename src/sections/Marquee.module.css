@@ -1,0 +1,62 @@
+/* 配色跑马灯：无缝横向滚动 */
+
+.section {
+  padding-block: 2.75rem 3.25rem;
+  overflow: hidden;
+}
+
+.strip {
+  position: relative;
+  /* 两端渐隐 */
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+.track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: scroll 36s linear infinite;
+}
+.track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 10.5rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid;
+  border-radius: 0.9rem;
+  box-shadow: 0 10px 26px -16px rgb(30 20 10 / 0.35);
+}
+
+/* 便签左上角的小胶钉 */
+.pin {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: inset -1px -1.5px 2px rgb(0 0 0 / 0.25);
+}
+
+.name {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: #1e1a16;
+}
+
+.caption {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: hsl(var(--faint-foreground));
+}

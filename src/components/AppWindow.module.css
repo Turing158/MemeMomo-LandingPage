@@ -1,0 +1,446 @@
+/* 应用界面复刻的样式。颜色固定使用 --app-*（产品 LightPalette），
+   不随站点主题切换，保证 mockup 任何主题下都呈现应用真实的暖纸外观。 */
+
+/* ---------- 主窗口 ---------- */
+
+.window {
+  width: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--app-bg);
+  border: 1px solid var(--app-border);
+  box-shadow:
+    0 24px 60px -18px rgb(30 20 10 / 0.35),
+    0 4px 16px -6px rgb(30 20 10 / 0.18);
+  font-family:
+    'Nunito', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  text-align: left;
+  user-select: none;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 37px;
+  padding-inline: 12px;
+  background: var(--app-surface);
+  border-bottom: 1px solid var(--app-border-subtle);
+}
+
+.titleIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.titleName {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.countBadge {
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--app-accent);
+  border-radius: 999px;
+  padding: 0.5px 5px;
+  line-height: 1.4;
+}
+
+.titleSpacer {
+  flex: 1;
+}
+
+.titleBtn {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  color: var(--app-text-secondary);
+}
+.titleBtn svg {
+  width: 11px;
+  height: 11px;
+}
+.btnGear {
+  color: var(--app-text-tertiary);
+}
+.pinActive {
+  color: var(--app-accent);
+}
+.btnClose {
+  color: #c5543d;
+}
+
+.body {
+  padding: 10px 12px 12px;
+}
+
+/* 顶部编辑器 */
+.editor {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border-subtle);
+  border-radius: 9px;
+  padding: 8px 10px 9px;
+  box-shadow: 0 1px 3px rgb(30 20 10 / 0.05);
+}
+
+.editorToolbar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 7px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--app-border-subtle);
+}
+
+.toolChar {
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--app-text-tertiary);
+  background: var(--app-bg-secondary);
+  border: 1px solid var(--app-border-subtle);
+  border-radius: 4px;
+  width: 15px;
+  height: 15px;
+  display: grid;
+  place-items: center;
+  font-family: Georgia, serif;
+}
+
+.editorTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--app-text);
+  line-height: 1.5;
+}
+
+.editorText {
+  font-size: 9.5px;
+  color: var(--app-text-secondary);
+  line-height: 1.6;
+}
+
+.inlineCode {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  background: var(--app-accent-muted);
+  color: #6e3a20;
+  border-radius: 3px;
+  padding: 0.5px 3px;
+}
+
+.editorHint {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 7px;
+  font-size: 8px;
+  color: var(--app-text-tertiary);
+}
+
+.kbdChip {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  color: var(--app-text-secondary);
+  background: var(--app-bg);
+  border: 1px solid var(--app-border);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 0 3px;
+  line-height: 1.5;
+}
+
+/* 备忘录卡片 */
+.list {
+  margin-top: 9px;
+  display: grid;
+  gap: 7px;
+}
+
+.card,
+.cardGhost {
+  position: relative;
+  display: flex;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border-subtle);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgb(30 20 10 / 0.04);
+}
+
+.cardGhost {
+  opacity: 0.62;
+  border-style: dashed;
+}
+
+.cardBar {
+  width: 3px;
+  border-radius: 2px;
+  margin: 8px 0 8px 5px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.cardMain {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 8px 7px 8px;
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cardTitle {
+  flex: 1;
+  min-width: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.cardBell {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  color: var(--app-accent);
+}
+
+.cardSubRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.cardSub {
+  flex: 1;
+  min-width: 0;
+  font-size: 8.5px;
+  color: var(--app-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.cardTime {
+  flex-shrink: 0;
+  font-size: 7.5px;
+  color: var(--app-text-tertiary);
+}
+
+/* ---------- 便签弹窗 ---------- */
+
+.popout {
+  width: 230px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f2e9d8; /* 暖沙便签配色 */
+  border: 1px solid #ddcdb2;
+  box-shadow:
+    0 20px 44px -14px rgb(30 20 10 / 0.4),
+    0 3px 10px -4px rgb(30 20 10 / 0.16);
+  font-family:
+    'Nunito', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  text-align: left;
+  user-select: none;
+}
+
+.popoutBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding-inline: 10px;
+  background: rgb(255 255 255 / 0.55);
+  border-bottom: 1px solid #ddcdb2;
+}
+
+.popoutTitle {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.popoutBody {
+  padding: 10px 12px 8px;
+}
+
+.popoutFooter {
+  padding: 4px 12px 8px;
+  text-align: right;
+}
+
+.mdH1 {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--app-text);
+  line-height: 1.4;
+}
+
+.mdH2 {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--app-text-secondary);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.mdText {
+  font-size: 9px;
+  color: var(--app-text);
+  margin-top: 5px;
+  line-height: 1.6;
+}
+
+.mdLink {
+  color: var(--app-accent);
+  text-decoration: underline;
+  text-underline-offset: 1.5px;
+}
+
+.mdQuote {
+  margin-top: 6px;
+  font-size: 8.5px;
+  color: #6e5b48;
+  background: #f0dfd4;
+  border-left: 2px solid #d2aa92;
+  border-radius: 0 4px 4px 0;
+  padding: 4px 7px;
+  line-height: 1.5;
+}
+
+.mdCodeBlock {
+  margin-top: 6px;
+  background: #e2e7ea;
+  border: 1px solid #818e98;
+  border-radius: 5px;
+  padding: 5px 7px 6px;
+  line-height: 1.5;
+}
+
+.mdCodeLang {
+  display: block;
+  font-size: 7px;
+  color: #6b7883;
+  margin-bottom: 1px;
+}
+
+.mdCodeBlock code {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: #2c343b;
+}
+
+.mdTime {
+  font-size: 7.5px;
+  color: var(--app-text-tertiary);
+}
+
+/* ---------- 提醒卡片 ---------- */
+
+.reminder {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 270px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 11px;
+  padding: 10px 12px;
+  box-shadow:
+    0 18px 40px -12px rgb(30 20 10 / 0.38),
+    0 3px 10px -4px rgb(30 20 10 / 0.14);
+  font-family:
+    'Nunito', 'Microsoft YaHei UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  text-align: left;
+  user-select: none;
+}
+
+.reminderIcon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--app-accent-subtle);
+  color: var(--app-accent);
+}
+.reminderIcon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.reminderMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.reminderTitle {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--app-accent);
+  line-height: 1.4;
+}
+
+.reminderText {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.reminderActions {
+  display: grid;
+  gap: 3px;
+}
+
+.reminderBtn {
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--app-text-secondary);
+  background: var(--app-bg);
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  padding: 1.5px 8px;
+  text-align: center;
+}
+
+.reminderBtnPrimary {
+  color: #fff;
+  background: var(--app-accent);
+  border-color: var(--app-accent);
+}
+
+/* ---------- 贴边方块 ---------- */
+
+.dock {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  box-shadow: 0 10px 24px -8px rgb(30 20 10 / 0.4);
+  display: grid;
+  place-items: center;
+}
+
+.dockIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+}

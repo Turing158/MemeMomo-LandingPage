@@ -17,7 +17,7 @@ import {
 } from '../../components/icons'
 import appIcon from '../../assets/appicon.png'
 
-const REASSURANCES = ['免安装 · 单文件', '免费 · MIT 开源', '无联网 · 无上传', '简中 · 繁中 · English']
+const REASSURANCES = ['免安装 · 单文件', '免费 · MIT 开源', '本地保存 · 无需账号', '简中 · 繁中 · English']
 
 const FACTS = [
   { label: '当前版本', value: SITE.version },
@@ -85,7 +85,7 @@ export default function Download() {
           </ul>
 
           <p className={styles.cardFoot}>
-            发布托管在 GitHub Releases，仓库公开后即可下载，敬请关注。
+            安装包是否可用及具体版本，以 GitHub Releases 页面为准；也可以按下方说明从源码运行。
           </p>
         </article>
 
@@ -102,7 +102,7 @@ export default function Download() {
           </dl>
           <div className={styles.factsFoot}>
             <IconShieldCheck size={16} />
-            <span>不联网、不打包上传，卸载也不会动你的数据。</span>
+            <span>备忘录内容保存在本机；检测更新和加载网络图片时会联网。</span>
           </div>
         </aside>
       </section>

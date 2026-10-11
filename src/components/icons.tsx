@@ -381,3 +381,39 @@ export function IconPlus(p: IconProps) {
     </svg>
   )
 }
+
+export function IconPanelLeft(p: IconProps) {
+  return <svg {...base(p)}><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M9 3v18" /></svg>
+}
+
+export function IconFilter(p: IconProps) {
+  return <svg {...base(p)}><path d="M4 5h16M7 12h10M10 19h4" /></svg>
+}
+
+export function IconSettings(p: IconProps) {
+  return <svg {...base(p)}><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6 2.1-2.1" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
+}
+
+export function IconTrash(p: IconProps) {
+  return <svg {...base(p)}><path d="M3 6h18M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M5 6l1 14h12l1-14M10 10v6m4-6v6" /></svg>
+}
+
+export function IconRestore(p: IconProps) {
+  return <svg {...base(p)}><path d="M3 4v6h6M3 10a9 9 0 1 1 2.3 8M12 8v8m-3-5 3-3 3 3" /></svg>
+}
+
+export function IconCode(p: IconProps) {
+  return <svg {...base(p)}><path d="m8 5-7 7 7 7m8-14 7 7-7 7M14 3l-4 18" /></svg>
+}
+
+export function IconImage(p: IconProps) {
+  return <svg {...base(p)}><rect x="3" y="3" width="18" height="18" rx="3" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" /></svg>
+}
+
+export function IconTable(p: IconProps) {
+  return <svg {...base(p)}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M3 15h18M11 9v12" /></svg>
+}
+
+export function IconLink(p: IconProps) {
+  return <svg {...base(p)}><path d="M10 13a5 5 0 0 0 7 .1l3-3a5 5 0 0 0-7-7l-2 2M14 11a5 5 0 0 0-7-.1l-3 3a5 5 0 0 0 7 7l2-2" /></svg>
+}

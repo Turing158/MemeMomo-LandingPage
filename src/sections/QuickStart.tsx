@@ -1,6 +1,6 @@
 // 快速开始：左侧三步时间线，右侧命令行窗口（可复制）。
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './QuickStart.module.css'
 import { SITE } from '../lib/site'
 import { IconCheck, IconTerminal } from '../components/icons'
@@ -8,7 +8,7 @@ import { IconCheck, IconTerminal } from '../components/icons'
 const STEPS = [
   {
     title: '安装 .NET 8 SDK',
-    desc: 'MemeMomo 面向 Windows，开发和运行都需要 .NET 8 SDK；发布版本可直接运行。',
+    desc: '从源码运行需要 .NET 8 SDK。自包含发布版无需另装 .NET；框架依赖版需要 .NET 8 Desktop Runtime。',
   },
   {
     title: '一条命令启动',
@@ -16,20 +16,26 @@ const STEPS = [
   },
   {
     title: '写下第一条备忘录',
-    desc: '在顶部编辑器输入内容，按 Ctrl + Enter 新增；从「设置 → 教程」可以随时查看快捷键。',
+    desc: '在编辑器输入内容，按 Ctrl + Enter 新增。也可以按 Ctrl + Alt + Q 在鼠标旁打开草稿，选好类型与状态后保存。',
   },
 ]
 
 export default function QuickStart() {
   const [copied, setCopied] = useState(false)
+  const [copyError, setCopyError] = useState(false)
+  const copyTimer = useRef<number | undefined>(undefined)
+
+  useEffect(() => () => window.clearTimeout(copyTimer.current), [])
 
   const copy = async () => {
+    setCopyError(false)
     try {
       await navigator.clipboard.writeText(SITE.runCommand)
       setCopied(true)
-      window.setTimeout(() => setCopied(false), 1600)
+      window.clearTimeout(copyTimer.current)
+      copyTimer.current = window.setTimeout(() => setCopied(false), 1600)
     } catch {
-      /* 剪贴板不可用时静默 */
+      setCopyError(true)
     }
   }
 
@@ -72,12 +78,13 @@ export default function QuickStart() {
                 <span className={styles.prompt}>PS D:\MemeMomo&gt;</span> {SITE.runCommand}
                 <span className={styles.cursor} aria-hidden />
               </p>
-              <p className={styles.terminalOut}>正在生成视图… 首次编译约需一分钟</p>
-              <p className={styles.terminalOut}>MemeMomo v0.0.1 已启动 ✓</p>
+              <p className={styles.terminalOut}>首次运行会还原依赖并编译项目</p>
+              <p className={styles.terminalOut}>MemeMomo {SITE.version} · 让每条想法随手可见</p>
               <button type="button" className={styles.copyBtn} onClick={copy}>
                 {copied ? <IconCheck size={14} /> : '复制命令'}
                 {copied ? '已复制' : ''}
               </button>
+              {copyError && <p className={styles.terminalOut} role="status">复制未成功，请选中上方命令手动复制。</p>}
             </div>
           </div>
         </div>

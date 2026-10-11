@@ -1,4 +1,4 @@
-// 更新日志数据源：本地维护（仓库尚未公开 Release，暂不接 GitHub Releases API）。
+// 更新日志按项目源码版本维护；发布包以 GitHub Releases 为准。
 // kind: feature=新增 improve=改进 fix=修复 note=说明
 
 export type ChangeKind = 'feature' | 'improve' | 'fix' | 'note'
@@ -19,9 +19,24 @@ export interface ReleaseEntry {
 
 export const RELEASES: ReleaseEntry[] = [
   {
+    version: 'v1.0.0',
+    date: '2026-10-10',
+    badge: 'latest',
+    title: '让记录有下一步：任务、回收站与双栏工作区',
+    entries: [
+      { kind: 'feature', text: '任务备忘：五类内置状态，支持自定义名称、颜色与图标，以及默认新建类型和默认任务状态' },
+      { kind: 'feature', text: '按类型与状态筛选，支持未结束优先排序；任务完成或取消时自动取消提醒' },
+      { kind: 'feature', text: '回收站：只读预览、恢复、单条彻底删除与全部清空' },
+      { kind: 'feature', text: 'Ctrl + Alt + Q 在鼠标位置打开空白草稿，Ctrl + Enter 保存；关闭前可选择保存、放弃或取消' },
+      { kind: 'improve', text: '主窗口支持宽屏双栏与紧凑布局，设置按类别内嵌，提醒面板在便签内打开' },
+      { kind: 'improve', text: '增强表格单元格、图片信息与宽度、代码块语言和复制操作，支持基础 HTML 样式' },
+      { kind: 'improve', text: '更新应用图标与便签配色，新增 GitHub 更新检测' },
+      { kind: 'fix', text: '增强本地数据保存，支持原子写入及备份恢复' },
+    ],
+  },
+  {
     version: 'v0.0.1',
     date: '2026-09-30',
-    badge: 'latest',
     title: '第一个公开版本：备忘录、便签与桌面集成全部就位',
     entries: [
       { kind: 'feature', text: '快速记录：顶部 Markdown 编辑器，Ctrl + Enter 立即新增，约 500ms 自动保存' },
@@ -45,7 +60,5 @@ export const ROADMAP = [
   '便签分组与搜索',
   '自定义主题强调色',
   '提醒重复规则（每天/每周）',
-  '多语言界面',
-  '数据自动备份',
   'Windows 应用商店分发',
 ] as const

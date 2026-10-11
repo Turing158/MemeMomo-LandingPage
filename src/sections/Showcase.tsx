@@ -1,223 +1,76 @@
-// 界面一览：并排复刻应用的浅色 / 深色设置窗口（取自真实 WPF 设置界面），
-// 下方是可交互的自定义组件演示（分段选择器 / 动画滑块 / 任务复选框）。
-
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import type { KeyboardEvent } from 'react'
+import AppPreview from '../components/app-preview/AppPreview'
+import { SETTINGS_PAGES } from '../data/appPreviews'
+import type { PreviewTheme, SettingsPreviewName } from '../data/appPreviews'
+import { useResolvedTheme } from '../hooks/useResolvedTheme'
+import { IconBell, IconListChecks, IconMoon, IconPencil, IconSettings, IconSun, IconTrash } from '../components/icons'
 import styles from './Showcase.module.css'
 
-const COLOR_PRESETS = [
-  { name: '跟随主题', bg: '#f6f3ec', border: '#e5ddd1' },
-  { name: '炭黑', bg: '#23262a', border: '#3a3f45' },
-  { name: '米白', bg: '#f7f3ea', border: '#e5ddd1' },
-  { name: '雾蓝', bg: '#dfe7f0', border: '#b3c4d8', selected: true },
-  { name: '鼠尾草绿', bg: '#e5ede6', border: '#bfd2c4' },
-  { name: '浅玫瑰', bg: '#f3e4e4', border: '#dcbcbc' },
-  { name: '淡紫', bg: '#eae4f1', border: '#cfc2de' },
-  { name: '暖沙', bg: '#f2e9d8', border: '#dcc9a8' },
-]
+const SCENES = [
+  { id: 'workspace', label: '备忘与任务', icon: IconListChecks, screen: 'workspace', title: '记下来，也一步步做完。', description: '备忘录列表与 Markdown 编辑器相伴。任务状态标记进度，宽窗与窄窗各有合适的布局。' },
+  { id: 'notes', label: '桌面便签', icon: IconPencil, screen: 'note', title: '一个小窗口，留住一个想法。', description: '拖出的备忘录可以独立放在桌面。灵感来了，用 Ctrl + Alt + Q 在鼠标旁打开草稿。' },
+  { id: 'settings', label: '个性化设置', icon: IconSettings, screen: 'settings-appearance', title: '让每个细节，合乎你的习惯。', description: '外观、窗口、任务、提醒与快捷键，在主窗口里分门别类，随时调整。' },
+  { id: 'statuses', label: '任务状态', icon: IconListChecks, screen: 'task-statuses', title: '给每一步，一个清晰的状态。', description: '待办、进行中、暂缓、已完成、已取消。还可以添加状态，选择喜欢的名称、颜色与图标。' },
+  { id: 'recycle', label: '回收站', icon: IconTrash, screen: 'recycle', title: '暂时放下，也能重新找回。', description: '删除后的备忘录先进入回收站。原文可以预览，想法可以恢复，也可以彻底删除。' },
+  { id: 'reminder', label: '便签提醒', icon: IconBell, screen: 'reminder', title: '到了时间，让它提醒你。', description: '提醒就在便签里。选择快捷时间，或设定日期与时、分、秒，让重要的事有个着落。' },
+] as const
 
-const HOTKEY_ROWS = [
-  { label: '置顶', keys: 'Ctrl + Alt + T' },
-  { label: '最小化', keys: 'Ctrl + Alt + M' },
-  { label: '显示软件', keys: 'Ctrl + Alt + N' },
-  { label: '快速添加（剪贴板）', keys: 'Ctrl + Alt + C' },
-]
-
-const MOTION_OPTIONS = ['跟随系统', '始终开启', '关闭动画']
-
-function SettingsMock({ variant }: { variant: 'light' | 'dark' }) {
-  return (
-    <div className={`${styles.settings} ${variant === 'dark' ? styles.settingsDark : ''}`}>
-      <div className={styles.settingsBar}>
-        <span className={styles.settingsTitle}>设置</span>
-        <span className={styles.settingsClose} aria-hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
-        </span>
-      </div>
-
-      <div className={styles.settingsBody}>
-        <section className={styles.settingsGroup}>
-          <p className={styles.groupTitle}>便签配色</p>
-          <p className={styles.groupHint}>标题栏与便签背景保持同色，边框自动适配。</p>
-          <div className={styles.swatchGrid}>
-            {COLOR_PRESETS.map((preset) => (
-              <div
-                key={preset.name}
-                className={`${styles.swatch} ${preset.selected ? styles.swatchSelected : ''}`}
-              >
-                <span
-                  className={styles.swatchDot}
-                  style={{ background: preset.bg, borderColor: preset.border }}
-                />
-                <span className={styles.swatchName}>
-                  {preset.name}
-                  {preset.selected && '（当前）'}
-                </span>
-                {preset.selected && (
-                  <svg
-                    className={styles.swatchCheck}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                  >
-                    <path d="M20 6 9 17l-5-5" />
-                  </svg>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className={styles.settingsGroup}>
-          <p className={styles.groupTitle}>界面动效</p>
-          <p className={styles.groupHint}>控制窗口和界面微交互动画</p>
-          <div className={styles.segmented}>
-            {MOTION_OPTIONS.map((label, index) => (
-              <span
-                key={label}
-                className={`${styles.segment} ${index === 0 ? styles.segmentActive : ''}`}
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-          <p className={styles.groupFoot}>系统当前已开启动画</p>
-        </section>
-
-        <section className={styles.settingsGroup}>
-          <p className={styles.groupTitle}>快捷键设置</p>
-          <p className={styles.groupHint}>点击后按下按键，按 Esc 留空，右键取消</p>
-          <div className={styles.keyRows}>
-            {HOTKEY_ROWS.map((row) => (
-              <div key={row.label} className={styles.keyRow}>
-                <span className={styles.keyLabel}>{row.label}</span>
-                <span className={styles.keyValue}>{row.keys}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-    </div>
-  )
-}
+type SceneId = (typeof SCENES)[number]['id']
 
 export default function Showcase() {
-  const [motion, setMotion] = useState(0)
-  const [dockSize, setDockSize] = useState(52)
-  const [tasks, setTasks] = useState([true, false, false])
+  const [view, setView] = useState<SceneId>('workspace')
+  const [chosenTheme, setChosenTheme] = useState<PreviewTheme | null>(null)
+  const [settingsPage, setSettingsPage] = useState<SettingsPreviewName>('settings-appearance')
+  const siteTheme = useResolvedTheme()
+  const theme = chosenTheme ?? siteTheme
+  const tabs = useRef<(HTMLButtonElement | null)[]>([])
+  const scene = SCENES.find((item) => item.id === view) ?? SCENES[0]
 
-  const toggleTask = (index: number) =>
-    setTasks((prev) => prev.map((done, i) => (i === index ? !done : done)))
+  const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? SCENES.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + SCENES.length) % SCENES.length
+    setView(SCENES[next].id)
+    tabs.current[next]?.focus()
+  }
 
   return (
-    <section className={`section ${styles.section}`} id="showcase">
+    <section className={'section ' + styles.section} id="showcase">
       <div className="container">
         <header className="sectionHead center" data-reveal>
           <p className="eyebrow">界面一览</p>
-          <h2 className="sectionTitle">
-            浅色深色，
-            <span className="marker">都长在桌面上</span>
-          </h2>
-          <p className="sectionDesc">
-            下面是应用「设置」窗口在两种主题下的原样复刻，配色、间距与真实界面一致。
-          </p>
+          <h2 className="sectionTitle"><span className={styles.headingLead}>小小的窗口，</span><span className="marker">装下日常的点滴</span></h2>
+          <p className="sectionDesc">写下想法、安排待办，把需要记住的事留在手边。</p>
         </header>
-
-        <div className={styles.dualGrid} data-reveal>
-          <figure className={styles.dualItem}>
-            <SettingsMock variant="light" />
-            <figcaption className={styles.dualCaption}>浅色 · 暖纸米白</figcaption>
-          </figure>
-          <figure className={styles.dualItem}>
-            <SettingsMock variant="dark" />
-            <figcaption className={styles.dualCaption}>深色 · 静谧炭黑</figcaption>
-          </figure>
-        </div>
-
-        {/* 可交互组件 */}
-        <div className={styles.controlsGrid} data-reveal>
-          <article className={styles.controlCard}>
-            <h3 className={styles.controlTitle}>分段选择器</h3>
-            <p className={styles.controlDesc}>设置窗口里的三态切换，试试点一下。</p>
-            <div className={styles.demoSegmented}>
-              {MOTION_OPTIONS.map((label, index) => (
-                <button
-                  key={label}
-                  type="button"
-                  className={`${styles.demoSegment} ${motion === index ? styles.demoSegmentActive : ''}`}
-                  onClick={() => setMotion(index)}
-                  aria-pressed={motion === index}
-                >
-                  {label}
-                </button>
-              ))}
+        <div className={styles.gallery} data-reveal>
+          <div className={styles.toolbar}>
+            <div className={styles.tabs} role="tablist" aria-label="查看软件界面">
+              {SCENES.map((item, index) => <button type="button" key={item.id} role="tab" id={'screen-tab-' + item.id}
+                ref={(node) => { tabs.current[index] = node }} aria-selected={view === item.id} aria-controls="app-gallery-panel"
+                tabIndex={view === item.id ? 0 : -1} onClick={() => setView(item.id)} onKeyDown={(event) => onTabKeyDown(event, index)}>
+                <item.icon size={16} /><span>{item.label}</span>
+              </button>)}
             </div>
-            <p className={styles.controlFoot}>
-              当前选择：<strong>{MOTION_OPTIONS[motion]}</strong>
-            </p>
-          </article>
-
-          <article className={styles.controlCard}>
-            <h3 className={styles.controlTitle}>贴边方块大小</h3>
-            <p className={styles.controlDesc}>
-              拖动滑块试试：<strong className={styles.demoValue}>{dockSize}px</strong>（30–75px 实时生效）
-            </p>
-            <input
-              type="range"
-              min={30}
-              max={75}
-              value={dockSize}
-              onChange={(event) => setDockSize(Number(event.target.value))}
-              className={styles.slider}
-              style={{ '--val': dockSize } as React.CSSProperties}
-              aria-label="贴边方块大小"
-            />
-            <div
-              className={styles.sliderPreview}
-              style={{ '--dock-px': `${dockSize * 0.7}px` } as React.CSSProperties}
-            >
-              <span className={styles.sliderDock} />
-              <span className={styles.sliderEdge} aria-hidden />
+            <div className={styles.themeSwitch} role="group" aria-label="查看软件配色">
+              <button type="button" aria-label="查看浅色界面" title="浅色" aria-pressed={theme === 'light'} onClick={() => setChosenTheme('light')}><IconSun size={17} /></button>
+              <button type="button" aria-label="查看深色界面" title="深色" aria-pressed={theme === 'dark'} onClick={() => setChosenTheme('dark')}><IconMoon size={17} /></button>
             </div>
-          </article>
-
-          <article className={styles.controlCard}>
-            <h3 className={styles.controlTitle}>任务项复选框</h3>
-            <p className={styles.controlDesc}>Markdown 任务项渲染成可勾选的动画复选框。</p>
-            <ul className={styles.taskList}>
-              {['回复评审意见', '给便签加呼吸灯', '整理发布说明'].map((label, index) => (
-                <li key={label}>
-                  <button
-                    type="button"
-                    className={styles.taskRow}
-                    onClick={() => toggleTask(index)}
-                    aria-pressed={tasks[index]}
-                  >
-                    <span
-                      className={`${styles.taskBox} ${tasks[index] ? styles.taskBoxOn : ''}`}
-                      aria-hidden
-                    >
-                      {tasks[index] && (
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3.4"
-                        >
-                          <path d="M20 6 9 17l-5-5" />
-                        </svg>
-                      )}
-                    </span>
-                    <span className={`${styles.taskText} ${tasks[index] ? styles.taskTextDone : ''}`}>
-                      {label}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </article>
+          </div>
+          <div role="tabpanel" id="app-gallery-panel" aria-labelledby={'screen-tab-' + view}>
+            {/* key 随场景重挂载，触发 panel-in 切换动画 */}
+            <div key={view} className={styles.panelSwap}>
+              <div className={styles.stage}>
+                {view === 'notes'
+                  ? <div className={styles.notePair}>
+                      <figure><AppPreview screen="note" theme={theme} label="MemeMomo 独立便签窗口" /><figcaption>桌面便签</figcaption></figure>
+                      <figure><AppPreview screen="draft" theme={theme} label="MemeMomo 快速添加草稿窗口" /><figcaption>快速添加</figcaption></figure>
+                    </div>
+                  : <AppPreview screen={view === 'settings' ? settingsPage : scene.screen} theme={theme} onSettingsPageChange={setSettingsPage} label={'MemeMomo ' + scene.label + (view === 'settings' ? '：' + SETTINGS_PAGES.find((page) => page.screen === settingsPage)?.label : '')} />}
+              </div>
+              <div className={styles.caption}><h3>{scene.title}</h3><p>{scene.description}</p></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

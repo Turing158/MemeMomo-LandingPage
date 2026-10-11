@@ -1,4 +1,4 @@
-// 主页：原单页展示（Hero → Features → Marquee → Showcase → QuickStart
+// 主页：软件界面与产品能力（Hero → Showcase → Features → Marquee → QuickStart
 //   → Shortcuts → Faq → Cta），作为站点的 index 路由。
 
 import { useReveal } from '../hooks/useReveal'
@@ -17,15 +17,15 @@ export default function Home() {
   usePageMeta({
     title: 'MemeMomo - 贴在桌面上的轻量 Markdown 备忘录',
     description:
-      'MemeMomo 官方展示页。一款为 Windows 打造的桌面 Markdown 备忘录：便签弹窗、定时提醒、全局快捷键、贴边收起，数据全部保存在本机。.NET 8 + WPF。',
+      'MemeMomo 官方展示页。为 Windows 打造的桌面 Markdown 备忘录：任务状态、快速新建、回收站、便签提醒、双栏工作区与贴边收起。数据保存在本机。',
   })
 
   return (
     <main>
       <Hero />
+      <Showcase />
       <Features />
       <Marquee />
-      <Showcase />
       <QuickStart />
       <Shortcuts />
       <Faq />

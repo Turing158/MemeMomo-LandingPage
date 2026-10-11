@@ -8,7 +8,19 @@ import { IconChevronDown } from '../components/icons'
 const FAQS = [
   {
     q: '我的数据会上传到云端吗？',
-    a: '不会。MemeMomo 没有任何联网功能，备忘录、设置和图片全部保存在本机 %AppData%/MemeMomo/ 目录下，退出应用也不会丢失。',
+    a: '不会上传备忘录内容。备忘录、任务状态、设置和图片保存在本机 %AppData%/MemeMomo/。检测更新时会访问 GitHub，添加网络图片时会请求对应的 HTTPS 地址。',
+  },
+  {
+    q: '任务状态和 Markdown 里的勾选项有什么区别？',
+    a: '任务状态用于整条备忘录，支持待办、进行中、暂缓、已完成和已取消，也能自定义名称、颜色与图标。Markdown 勾选项是正文里的清单项，两者可以配合使用。任务完成或取消时，会自动取消这条备忘录的提醒。',
+  },
+  {
+    q: '快速新建和剪贴板收集有什么不同？',
+    a: 'Ctrl + Alt + Q 在鼠标位置打开空白草稿，按 Ctrl + Enter 后保存为正式备忘录；关闭未保存的草稿时，可以选择保存、放弃或取消关闭。Ctrl + Alt + C 则直接把剪贴板文本添加为备忘录。',
+  },
+  {
+    q: '删除的备忘录还能找回来吗？',
+    a: '可以。内容会先进入回收站，你可以预览原文，再恢复到备忘录列表。彻底删除或清空回收站前，请确认内容不再需要；恢复任务后，如需提醒，要重新安排时间。',
   },
   {
     q: '完全退出后，提醒还会触发吗？',
@@ -20,7 +32,7 @@ const FAQS = [
   },
   {
     q: '支持哪些 Markdown 语法？',
-    a: '标题、强调、删除线、列表、任务项、引用、链接、代码、表格、分隔线和图片。底层始终保存为纯 Markdown 文本，随时可被其他编辑器接管。',
+    a: '支持标题、强调、列表、任务项、引用、链接、代码块、表格和图片等。可以编辑表格单元格、调整图片宽度、选择代码语言与复制代码，也支持基础 HTML 样式。底层保存为 Markdown 文本。',
   },
   {
     q: '如何从源码运行？',
@@ -49,12 +61,13 @@ export default function Faq() {
                   className={styles.question}
                   onClick={() => setOpen(expanded ? -1 : index)}
                   aria-expanded={expanded}
+                  aria-controls={'faq-answer-' + index}
                 >
                   <span className={styles.index}>{String(index + 1).padStart(2, '0')}</span>
                   <span className={styles.q}>{item.q}</span>
                   <IconChevronDown size={18} className={styles.chevron} />
                 </button>
-                <div className={styles.answerWrap} aria-hidden={!expanded}>
+                <div id={'faq-answer-' + index} className={styles.answerWrap} aria-hidden={!expanded}>
                   <p className={styles.answer}>{item.a}</p>
                 </div>
               </div>

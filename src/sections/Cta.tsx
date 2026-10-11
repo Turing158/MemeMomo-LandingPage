@@ -1,6 +1,7 @@
 // 行动号召：暖色渐变卡 + 便签装饰 + GitHub 按钮。
 
 import styles from './Cta.module.css'
+import { Link } from 'react-router-dom'
 import { SITE } from '../lib/site'
 import { IconArrowRight, IconGithub } from '../components/icons'
 
@@ -23,17 +24,17 @@ export default function Cta() {
               <span className={styles.highlight}>停在桌面上</span>了吗？
             </h2>
             <p className={styles.desc}>
-              克隆仓库，一条命令启动。轻量、免费、开源，数据永远属于你自己。
+              从一条便签到一个完成的待办。免费、开源，记录留在你自己的电脑里。
             </p>
             <div className={styles.row}>
               <a className={`btn btnPrimary ${styles.btn}`} href={SITE.repoUrl} target="_blank" rel="noreferrer">
                 <IconGithub size={17} />
-                获取 MemeMomo
+                在 GitHub 查看源码
               </a>
-              <a className={styles.link} href="#quickstart">
+              <Link className={styles.link} to="/#quickstart">
                 先看快速开始
                 <IconArrowRight size={15} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

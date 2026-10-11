@@ -4,19 +4,21 @@
 import { Navigate, createHashRouter } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './sections/Home'
-import Docs from './routes/docs/Docs'
-import Download from './routes/download/Download'
-import Changelog from './routes/changelog/Changelog'
+
+function RouteLoading() {
+  return <main className="route-loading" role="status">正在打开页面…</main>
+}
 
 export const router = createHashRouter([
   {
     element: <Layout />,
+    HydrateFallback: RouteLoading,
     children: [
       { index: true, element: <Home /> },
       // docs/*：splat 为 content/ 里的章节路径，如 /docs/快速入门/安装与启动
-      { path: 'docs/*', element: <Docs /> },
-      { path: 'download', element: <Download /> },
-      { path: 'changelog', element: <Changelog /> },
+      { path: 'docs/*', lazy: async () => ({ Component: (await import('./routes/docs/Docs')).default }) },
+      { path: 'download', lazy: async () => ({ Component: (await import('./routes/download/Download')).default }) },
+      { path: 'changelog', lazy: async () => ({ Component: (await import('./routes/changelog/Changelog')).default }) },
       { path: '*', element: <Navigate to="/" replace /> },
     ],
   },

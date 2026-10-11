@@ -1,27 +1,23 @@
-// Hero：居中文案 + 应用窗口拼贴。
-// 拼贴 = 主窗口居中，便签弹窗（左斜叠）、提醒卡片（右斜叠）、
-// 贴边方块（右下，可沿边线拖动）围绕；背景点阵纸纹 + 两团暖色光晕。
-
 import { useRef, useState } from 'react'
-import type { PointerEvent as ReactPointerEvent } from 'react'
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react'
+import { Link } from 'react-router-dom'
 import styles from './Hero.module.css'
 import { AppWindow, PopoutNote, ReminderToast, DockSquare } from '../components/AppWindow'
-import { SITE } from '../lib/site'
-import { IconArrowRight, IconGithub, IconStickyNote } from '../components/icons'
+import { GLOBAL_SHORTCUTS, TASK_STATUSES } from '../data/product'
+import { MEMO_COLORS } from '../lib/site'
+import { IconArrowRight, IconDownload } from '../components/icons'
 
 const STATS = [
-  { value: '10+', label: '桌面特性' },
-  { value: '8 款', label: '便签配色' },
-  { value: '5 组', label: '全局快捷键' },
-  { value: '100%', label: '本地存储' },
+  { value: TASK_STATUSES.length + ' 类', label: '任务状态，可自定义' },
+  { value: MEMO_COLORS.length + ' 款', label: '随心选择的便签配色' },
+  { value: GLOBAL_SHORTCUTS.length + ' 组', label: '可改绑的全局快捷键' },
+  { value: '100%', label: '数据保存在本机' },
 ]
 
-const DOCK_SIZE = 44 // 与 .dock 的固定尺寸一致
-const FILLET = 12 // 过渡弧伸出方块外沿的高度（上、下各 12px）
+const DOCK_SIZE = 44
+const FILLET = 12
 
 export default function Hero() {
-  // 贴边方块沿边线的位置（距 .edge 底部的 px），可拖动。
-  // 范围按过渡弧外沿钳制：拖到尽头时弧形恰好与线的端头对齐。
   const edgeRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef<{ startY: number; startBottom: number; min: number; max: number } | null>(null)
   const [dockBottom, setDockBottom] = useState(FILLET)
@@ -51,47 +47,18 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} id="top">
-      <div className={styles.bg} aria-hidden>
-        <div className={`${styles.blob} ${styles.blobA}`} />
-        <div className={`${styles.blob} ${styles.blobB}`} />
-      </div>
-
-      <div className={`container ${styles.inner}`}>
-        <div className={`${styles.copy} reveal visible`}>
-          <p className={styles.badge}>
-            <IconStickyNote size={14} />
-            为 Windows 打造 · .NET 8 + WPF
-          </p>
-          <h1 className={styles.title}>
-            把每一个想法，
-            <br />
-            <span className="marker">贴在桌面上</span>
-          </h1>
-          <p className={styles.subtitle}>
-            MemeMomo 是一款轻量的桌面 Markdown 备忘录：随手记下，
-            让它安静地停在屏幕边缘，或变成一张独立便签。
-            不上云、不打扰，全部数据留在你的电脑里。
-          </p>
-
+      <div className={styles.bg} aria-hidden><div className={styles.blobA} /><div className={styles.blobB} /></div>
+      <div className={'container ' + styles.inner}>
+        <div className={styles.copy}>
+          <p className={styles.badge}><span className={styles.dot} />为 Windows 打造的桌面备忘录</p>
+          <h1 className={styles.title}>把想法和待办，<br /><span className="marker">一起贴在桌面上</span></h1>
+          <p className={styles.subtitle}>随手写下 Markdown，把备忘变成任务，让重要的事停在眼前。<br className={styles.desktopBreak} />从一闪而过的灵感，到一件件完成的小事，MemeMomo 都在手边。</p>
           <div className={styles.ctaRow}>
-            <a className={`btn btnPrimary ${styles.cta}`} href={SITE.repoUrl} target="_blank" rel="noreferrer">
-              <IconGithub size={17} />
-              在 GitHub 查看源码
-            </a>
-            <a className="btn btnGhost" href="#quickstart">
-              三步快速上手
-              <IconArrowRight size={16} />
-            </a>
+            <Link className="btn btnPrimary" to="/download"><IconDownload size={17} />获取 MemeMomo</Link>
+            <Link className="btn btnGhost" to="/#showcase">界面一览<IconArrowRight size={16} /></Link>
           </div>
-
-          <p className={styles.hint}>
-            按下 <span className="kbd">Ctrl</span>
-            <span className="kbd">Alt</span>
-            <span className="kbd">N</span> 随时唤起主窗口
-          </p>
+          <p className={styles.hint}><span className="kbd">Ctrl</span><span className="kbd">Alt</span><span className="kbd">Q</span><span>在鼠标旁，接住一个新想法</span></p>
         </div>
-
-        {/* 应用拼贴 */}
         <div className={styles.collage} aria-hidden>
           <div className={styles.stage}>
             <div className={`${styles.float} ${styles.floatMain}`}>
@@ -106,7 +73,7 @@ export default function Hero() {
             <div
               className={styles.edge}
               ref={edgeRef}
-              style={{ '--dock-bottom': `${dockBottom}px` } as React.CSSProperties}
+              style={{ '--dock-bottom': `${dockBottom}px` } as CSSProperties}
             >
               <DockSquare
                 className={styles.dockHandle}
@@ -119,15 +86,8 @@ export default function Hero() {
             </div>
           </div>
         </div>
-
-        <ul className={styles.stats} data-reveal>
-          {STATS.map((stat) => (
-            <li key={stat.label} className={styles.stat}>
-              <span className={styles.statValue}>{stat.value}</span>
-              <span className={styles.statLabel}>{stat.label}</span>
-            </li>
-          ))}
-        </ul>
+        <ul className={styles.stats} data-reveal>{STATS.map((stat) => <li key={stat.label}><span className={styles.statValue}>{stat.value}</span><span className={styles.statLabel}>{stat.label}</span></li>)}</ul>
+        <p className={styles.platform}>为 Windows 打造<span>·</span>免费开源<span>·</span>无需注册</p>
       </div>
     </section>
   )

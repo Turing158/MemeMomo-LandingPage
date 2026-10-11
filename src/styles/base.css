@@ -103,6 +103,14 @@ p {
   position: relative;
   padding-block: 4.5rem;
 }
+
+.route-loading {
+  display: grid;
+  place-items: center;
+  min-height: 65vh;
+  padding: 8rem 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
 @media (min-width: 768px) {
   .section {
     padding-block: 6rem;

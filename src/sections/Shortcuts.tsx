@@ -2,17 +2,11 @@
 
 import styles from './Shortcuts.module.css'
 import { IconKeyboard, IconMonitor, IconPencil } from '../components/icons'
-
-const GLOBAL_KEYS = [
-  { action: '切换置顶', keys: ['Ctrl', 'Alt', 'T'], note: '最近激活的主窗口、便签或教程窗口' },
-  { action: '切换便签任务栏图标', keys: ['Ctrl', 'Alt', 'B'], note: '显示或隐藏最近激活便签的任务栏按钮' },
-  { action: '最小化到托盘', keys: ['Ctrl', 'Alt', 'M'], note: '隐藏主窗口，托盘继续驻留' },
-  { action: '显示主窗口', keys: ['Ctrl', 'Alt', 'N'], note: '唤起或恢复主窗口' },
-  { action: '快速添加剪贴板', keys: ['Ctrl', 'Alt', 'C'], note: '将剪贴板文本新增为备忘录' },
-]
+import { GLOBAL_SHORTCUTS } from '../data/product'
 
 const EDITOR_KEYS = [
   { action: '新增备忘录', keys: ['Ctrl', 'Enter'], note: '顶部编辑器中立即创建' },
+  { action: '保存新草稿', keys: ['Ctrl', 'Enter'], note: '将快速新建的草稿保存为正式备忘录' },
   { action: '立即保存', keys: ['Ctrl', 'Enter'], note: '编辑已有备忘录时保持编辑状态' },
   { action: '恢复内容', keys: ['Esc'], note: '回到本次载入时的内容' },
   { action: '插入换行', keys: ['Enter'], note: '编辑状态中直接换行' },
@@ -26,7 +20,7 @@ export default function Shortcuts() {
         <header className="sectionHead" data-reveal>
           <p className="eyebrow">
             <IconKeyboard size={14} />
-            键盘-first
+            键盘操作
           </p>
           <h2 className="sectionTitle">
             手不离键盘，
@@ -44,7 +38,7 @@ export default function Shortcuts() {
               全局快捷键
             </h3>
             <ul className={styles.list}>
-              {GLOBAL_KEYS.map((row) => (
+              {GLOBAL_SHORTCUTS.map((row) => (
                 <li key={row.action} className={styles.row}>
                   <div className={styles.rowMain}>
                     <span className={styles.action}>{row.action}</span>

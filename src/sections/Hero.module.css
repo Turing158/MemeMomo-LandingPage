@@ -1,123 +1,19 @@
-/* Hero：点阵纸纹背景 + 居中文案 + 窗口拼贴 + 统计条 */
-
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding-top: 7.5rem;
-  padding-bottom: 4rem;
-}
-@media (min-width: 768px) {
-  .hero {
-    padding-top: 9rem;
-    padding-bottom: 5rem;
-  }
-}
-
-.bg {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-    hsl(var(--foreground) / 0.07) 1.25px,
-    transparent 1.25px
-  );
-  background-size: 24px 24px;
-  mask-image: linear-gradient(to bottom, black 55%, transparent);
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(72px);
-  opacity: 0.5;
-}
-.blobA {
-  width: 34rem;
-  height: 34rem;
-  top: -12rem;
-  left: -10rem;
-  background: hsl(var(--amber) / 0.28);
-}
-.blobB {
-  width: 30rem;
-  height: 30rem;
-  top: 6rem;
-  right: -12rem;
-  background: hsl(var(--primary) / 0.22);
-}
-.dark .blob {
-  opacity: 0.3;
-}
-
-.inner {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* ---------- 文案 ---------- */
-
-.copy {
-  max-width: 44rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.8125rem;
-  font-weight: 800;
-  color: hsl(var(--primary));
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 999px;
-  padding: 0.3rem 0.9rem;
-  box-shadow: 0 2px 10px -4px hsl(var(--shadow-color) / 0.2);
-}
-
-.title {
-  font-size: clamp(2.5rem, 7vw, 4.25rem);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  margin-top: 1.25rem;
-}
-
-.subtitle {
-  margin-top: 1.25rem;
-  font-size: 1.125rem;
-  color: hsl(var(--muted-foreground));
-  max-width: 36rem;
-}
-
-.ctaRow {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-top: 2rem;
-}
-
-.cta {
-  padding-inline: 1.6rem;
-}
-
-.hint {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 1.5rem;
-  font-size: 0.875rem;
-  color: hsl(var(--faint-foreground));
-}
-.hint .kbd {
-  font-size: 0.75rem;
-  padding: 0.1rem 0.5rem;
-}
-
+.hero { position: relative; overflow: hidden; padding: 8rem 0 3.5rem; }
+.bg { position: absolute; inset: 0; background-image: radial-gradient(hsl(var(--foreground) / 0.065) 1px, transparent 1px); background-size: 24px 24px; mask-image: linear-gradient(to bottom, black 72%, transparent); pointer-events: none; }
+.blobA, .blobB { position: absolute; border-radius: 50%; filter: blur(80px); }
+.blobA { width: 34rem; height: 32rem; top: -17rem; left: -10rem; background: hsl(var(--amber) / 0.13); }
+.blobB { width: 32rem; height: 28rem; top: 7rem; right: -16rem; background: hsl(var(--primary) / 0.10); }
+.inner { position: relative; display: flex; flex-direction: column; align-items: center; }
+.copy { max-width: 48rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.badge { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0.9rem; border: 1px solid hsl(var(--border)); border-radius: 999px; background: hsl(var(--card) / 0.85); color: hsl(var(--muted-foreground)); font-size: 0.75rem; font-weight: 700; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--sage)); box-shadow: 0 0 0 3px hsl(var(--sage) / 0.12); }
+.title { font-size: clamp(2.125rem, 5.2vw, 4rem); font-weight: 900; line-height: 1.28; letter-spacing: -0.035em; margin-top: 1.35rem; }
+.subtitle { max-width: 42rem; margin-top: 1.25rem; color: hsl(var(--muted-foreground)); font-size: 1.0625rem; line-height: 1.85; }
+.ctaRow { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.75rem; }
+.ctaRow > a { min-width: 10.5rem; }
+.hint { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.3rem; margin-top: 1.25rem; color: hsl(var(--muted-foreground)); font-size: 0.75rem; }
+.hint > span:last-child { margin-left: 0.3rem; }
+.hint > :global(.kbd) { font-size: 0.65rem; padding: 0.08rem 0.35rem; }
 /* ---------- 拼贴 ---------- */
 
 .collage {
@@ -264,41 +160,41 @@
   }
 }
 
-/* ---------- 统计条 ---------- */
-
-.stats {
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem 2.5rem;
+.stats { width: min(100%, 48rem); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2.5rem; padding: 1.5rem 0; border-block: 1px solid hsl(var(--border)); }
+.stats li { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; text-align: center; }
+.stats li + li { border-left: 1px solid hsl(var(--border)); }
+.statValue { color: hsl(var(--primary)); font-size: 1.5rem; font-weight: 900; }
+.statLabel { color: hsl(var(--muted-foreground)); font-size: 0.75rem; }
+.platform { display: flex; gap: 0.65rem; align-items: center; margin-top: 1rem; color: hsl(var(--muted-foreground)); font-size: 0.75rem; }
+.platform span { color: hsl(var(--border-strong)); }
+@media (max-width: 767px) {
+  .hero { padding-top: 7.5rem; }
+  .subtitle { font-size: 1rem; }
+  .desktopBreak { display: none; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 0; margin-top: 1.75rem; }
+  .stats li:nth-child(3) { border-left: 0; }
+  .statValue { font-size: 1.35rem; }
+  .statLabel { font-size: 0.7rem; }
 }
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-}
-
-.statValue {
-  font-family: var(--font-display);
-  font-size: 1.375rem;
-  font-weight: 900;
-  color: hsl(var(--primary));
-}
-
-.statLabel {
-  font-size: 0.8125rem;
-  color: hsl(var(--faint-foreground));
-  font-weight: 600;
+@media (max-width: 400px) {
+  .ctaRow { gap: 0.55rem; }
+  .ctaRow > a { min-width: 0; padding-inline: 1.1rem; font-size: 0.8125rem; }
 }
 
 /* ---------- 小屏适配 ---------- */
 
 @media (max-width: 640px) {
+  .stage {
+    flex-direction: column;
+    align-items: center;
+  }
+  .floatMain {
+    width: 100%;
+    max-width: 320px;
+  }
+  .floatMain > div {
+    width: 100%;
+  }
   .floatNote {
     position: relative;
     right: auto;
